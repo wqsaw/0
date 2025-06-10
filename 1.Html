@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>成果報告</title>
+  <style>
+    /*
+     * 基本樣式設置：確保所有元素都沒有預設邊距和內邊距，並使用盒模型。
+     */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /*
+     * body 樣式：
+     * - 設定字體優先使用 'Inter'，其次是 'Segoe UI'，確保跨平台一致性。
+     * - 設定行高為 1.6，提高文字可讀性。
+     * - 背景色使用柔和的淺灰色。
+     * - 文字顏色為深灰色。
+     */
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      background-color: #f0f2f5; /* 柔和的淺灰色背景 */
+      color: #333;
+    }
+
+    /*
+     * header 和 section 樣式：
+     * - 設置內邊距，增加內容與邊界的距離。
+     * - 設置最大寬度並自動居中，確保內容在大螢幕上不會過寬。
+     */
+    header, section {
+      padding: 40px 20px;
+      max-width: 960px;
+      margin: auto;
+    }
+
+    /*
+     * 標題（h1, h2, h3）樣式：
+     * - 設定標題顏色為深藍色。
+     */
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+
+    /*
+     * 導覽列樣式：
+     * - 背景色為深灰色。
+     * - 文字顏色為白色。
+     * - 彈性佈局，使內容水平分佈。
+     * - 粘性定位，使導覽列在滾動時保持在頂部。
+     * - z-index 確保導覽列在其他內容之上。
+     */
+    .navbar {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    /*
+     * 導覽列標誌樣式：
+     * - 字體大小和粗細。
+     */
+    .navbar .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    /*
+     * 導覽連結列表樣式：
+     * - 彈性佈局，使連結水平排列。
+     * - 移除列表點。
+     */
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    /*
+     * 導覽連結項目樣式：
+     * - 左側邊距，增加連結間距。
+     */
+    .nav-links li {
+      margin-left: 20px;
+    }
+
+    /*
+     * 導覽連結樣式：
+     * - 移除下劃線。
+     * - 文字顏色為白色。
+     * - 平滑過渡效果，用於 hover 狀態。
+     */
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      transition: 0.3s;
+    }
+
+    /*
+     * 導覽連結 hover 狀態樣式：
+     * - 改變文字顏色，提供視覺反饋。
+     */
+    .nav-links a:hover {
+      color: #f0c040;
+    }
+
+    /*
+     * 漢堡選單圖示樣式：
+     * - 預設不顯示。
+     * - 彈性佈局，垂直排列。
+     * - 指針樣式，表示可點擊。
+     */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    /*
+     * 漢堡選單條樣式：
+     * - 寬度、高度、背景色和上下邊距。
+     */
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 4px 0;
+    }
+
+    /*
+     * 響應式設計：
+     * - 當螢幕寬度小於 768px 時，調整導覽列樣式。
+     * - 導覽連結垂直堆疊，並在點擊漢堡選單時顯示。
+     */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none; /* 預設隱藏 */
+        flex-direction: column;
+        background-color: #333;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        padding: 10px 0;
+      }
+
+      /*
+       * 導覽連結 active 狀態樣式：
+       * - 顯示導覽連結。
+       */
+      .nav-links.active {
+        display: flex;
+      }
+
+      /*
+       * 導覽連結項目在響應式模式下的樣式：
+       * - 文字居中對齊。
+       * - 上下邊距。
+       */
+      .nav-links li {
+        text-align: center;
+        margin: 10px 0;
+      }
+
+      /*
+       * 漢堡選單在響應式模式下的樣式：
+       * - 顯示漢堡選單。
+       */
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    /*
+     * 封面樣式（應用於 header.cover）：
+     * - 背景使用從淺藍到白色的線性漸變。
+     * - 內邊距，使內容不擁擠。
+     * - 文本居中對齊。
+     * - 圓角邊框，增加現代感。
+     * - 柔和的陰影，使容器浮起。
+     * - 文字顏色。
+     * - 淡入動畫和過渡效果。
+     */
+    .cover {
+      background: linear-gradient(to bottom right, #e0f7fa, #ffffff); /* 淺藍到白色的漸變背景 */
+      padding: 70px 50px;
+      text-align: center;
+      border-radius: 15px; /* 更大的圓角 */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* 更明顯的陰影 */
+      color: #2c3e50; /* 深藍色文本 */
+      animation: fadeIn 1.5s ease-out; /* 淡入動畫 */
+      transition: all 0.3s ease; /* 平滑過渡效果 */
+      margin-bottom: 40px; /* 封面與下一段內容的間距 */
+    }
+
+    /*
+     * 封面標題樣式：
+     * - 大字體，粗體，引人注目。
+     * - 使用較深的藍色。
+     * - 底部邊距。
+     * - 文本陰影，增加立體感。
+     * - 增加字母間距。
+     */
+    .cover h1 {
+      font-size: 4em; /* 更大的字體 */
+      color: #1a5276; /* 深藍色 */
+      margin-bottom: 40px;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+      letter-spacing: 2px; /* 增加字母間距 */
+    }
+
+    /*
+     * 封面段落樣式：
+     * - 字體大小適中，行高舒適。
+     * - 顏色較淺。
+     * - 底部邊距，增加段落間距。
+     */
+    .cover p {
+      font-size: 1.6em; /* 略大的字體 */
+      margin: 20px 0;
+      color: #34495e; /* 柔和的深灰色 */
+      line-height: 1.8;
+    }
+
+    /*
+     * 粗體文本樣式（用於封面）：
+     * - 使用突出顯示的藍色，吸引注意力。
+     */
+    .cover strong {
+      color: #007bff; /* 鮮明的藍色 */
+    }
+
+    /*
+     * 圖片樣式：
+     * - 最大寬度為 100%，確保圖片響應式。
+     * - 高度自動，保持圖片比例。
+     * - 上下邊距。
+     * - 圓角邊框。
+     */
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    /*
+     * 內文段落和列表樣式：
+     * - 上下邊距，增加內容間距。
+     */
+    section p, section ul {
+      margin: 20px 0;
+    }
+
+    /*
+     * 響應式設計：
+     * - 當螢幕寬度小於 768px 時，調整封面容器內邊距和字體大小。
+     */
+    @media (max-width: 768px) {
+      .cover {
+        padding: 50px 30px;
+      }
+
+      .cover h1 {
+        font-size: 3em;
+        margin-bottom: 30px;
+      }
+
+      .cover p {
+        font-size: 1.3em;
+        margin: 15px 0;
+      }
+    }
+
+    /*
+     * 響應式設計：
+     * - 當螢幕寬度小於 480px 時，進一步調整封面容器內邊距和字體大小，確保在手機上也能良好顯示。
+     */
+    @media (max-width: 480px) {
+      header, section {
+        padding: 15px 15px; /* 調整整體內容內邊距 */
+      }
+
+      .cover {
+        padding: 40px 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .cover h1 {
+        font-size: 2.5em;
+        margin-bottom: 25px;
+      }
+
+      .cover p {
+        font-size: 1.1em;
+        margin: 12px 0;
+      }
+    }
+
+    /* 淡入動畫關鍵幀 */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 導覽列 -->
+  <nav class="navbar">
+    <div class="logo">期末報告</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#cover">封面</a></li>
+      <li><a href="#project">成果展示</a></li>
+      <li><a href="#learning">學習過程</a></li>
+      <li><a href="#reflection">心得與反思</a></li>
+    </ul>
+  </nav>
+
+  <!-- 封面 -->
+  <header class="cover" id="cover">
+    <h1>成果報告</h1>
+    <p><strong>課程名稱：</strong> 網頁設計與實作</p>
+    <p><strong>學生姓名：</strong> 何家樂</p>
+    <p><strong>指導老師：</strong> 劉毓芬</p>
+    <p><strong>提交日期：</strong> 2025年5月29日</p>
+  </header>
+
+  <!-- 成果展示 -->
+  <section id="project">
+    <h2>成果展示</h2>
+    <p>在本課程中，我完成了一個響應式個人網站作品，具備以下功能與特色：</p>
+
+    <h3>設計理念</h3>
+    <p>本作品旨在展示個人履歷與作品集，設計風格以簡潔、清晰為主，並使用 RWD 技術讓網站適應各種螢幕裝置。</p>
+
+    <h3>功能介紹</h3>
+    <ul>
+      <li>響應式導覽列與漢堡選單(JavaScript)</li>
+      <li>作品展示區(HTML5 結構 + CSS3 Grid 排版)</li>
+      <li>表單驗證與主題切換(JavaScript)</li>
+    </ul>
+
+    <h3>技術細節</h3>
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    
+    <h3>作品截圖與連結</h3>
+    <img src="螢幕擷取畫面 2025-06-10 175349.png" alt="作品">
+    <img src="螢幕擷取畫面 2025-06-10 175400.png" alt="作品">
+  </section>
+
+  <!-- 學習過程 -->
+  <section id="learning">
+    <h2>學習過程</h2>
+    <p>從零開始學習 HTML、CSS 與 JavaScript 是一項挑戰。我從簡單的排版、按鈕設計做起，逐步了解語法與網頁結構。</p>
+    <p>過程中最困難的是 RWD 響應式設計，特別是導覽列的調整。我查閱了許多範例與教學，並嘗試使用 media query 與 Flexbox 成功解決。</p>
+  </section>
+
+  <!-- 心得與反思 -->
+  <section id="reflection">
+    <h2>心得與反思</h2>
+    <p>這門課程讓我學會了 HTML5、CSS3 與 JavaScript 的基礎應用。</p>
+    <p>我意識到實作遠比理論更能幫助理解。未來希望能進一步學習 React 或 Vue 框架，並結合後端服務，建立更完整的網站。</p>
+
+  </section>
+
+  <!-- 漢堡選單功能 -->
+  <script>
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>
